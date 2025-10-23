@@ -1,36 +1,63 @@
-import javax.swing.*;      
-import java.awt.*;     
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
-//import java.util.ArrayList;
 
-public  class smart{
-     public static void main(String[] args){
-        JFrame frame=new JFrame("Smart Notes");
-        frame.setSize(400,300);
+public class smart {
+    public static void main(String[] args) {
+        // Create main window
+        JFrame frame = new JFrame("Smart Notes");
+        frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //c
-        JTextArea noteArea =new JTextArea(5,20);
-        JScrollPane scrollPane=new JScrollPane(noteArea);
 
-        JButton saveButton=new JButton("save Note");
-        JButton addrelod=new JButton("relod");
+        // Create text area for typing notes
+        JTextArea noteArea = new JTextArea();
+        JScrollPane scroll = new JScrollPane(noteArea);
 
-        //add
-        frame.add(scrollPane, BorderLayout.CENTER);
+        // Create buttons
+        JButton saveButton = new JButton("save");
+        JButton reloadButton = new JButton("reload");
+
+        // Add components to window
+        frame.add(scroll, BorderLayout.CENTER);
         frame.add(saveButton, BorderLayout.SOUTH);
-        frame.add(addrelod,BorderLayout.NORTH);
-        // 3. Add an action (listener) to the button
+        frame.add(reloadButton, BorderLayout.NORTH);
+
+        // Save button action
         saveButton.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        //System.out.println("You clicked Add Note!");
-    }
-});
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String text = noteArea.getText();
+                    // Save text to file
+                    java.io.FileWriter file = new java.io.FileWriter("notes.txt", true);
+                    file.write(text + "\n----\n");
+                    file.close();
+                    JOptionPane.showMessageDialog(frame, "note saved");
+                    noteArea.setText(""); // clear text after saving
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(frame, "error saving note");
+                }
+            }
+        });
 
-        //frame.add(button);
+        // Reload button action
+        reloadButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    // Read notes from file
+                    java.io.BufferedReader read = new java.io.BufferedReader(new java.io.FileReader("notes.txt"));
+                    noteArea.setText(""); // clear before loading
+                    String line;
+                    while ((line = read.readLine()) != null) {
+                        noteArea.append(line + "\n");
+                    }
+                    read.close();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(frame, "no notes yet");
+                }
+            }
+        });
+
+        // Show the window
         frame.setVisible(true);
-        
-
-
-
-     }
+    }
 }
