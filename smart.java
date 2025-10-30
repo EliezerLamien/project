@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 
 public class smart {
     public static void main(String[] args) {
@@ -26,15 +27,20 @@ public class smart {
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String text = noteArea.getText();
-                    // Save text to file
-                    java.io.FileWriter file = new java.io.FileWriter("notes.txt", true);
-                    file.write(text + "\n----\n");
-                    file.close();
-                    JOptionPane.showMessageDialog(frame, "note saved");
-                    noteArea.setText(""); // clear text after saving
+                    // Let the user pick where to save
+                    JFileChooser chooser = new JFileChooser();
+                    int choice = chooser.showSaveDialog(frame);
+                    
+                    if (choice == JFileChooser.APPROVE_OPTION) {
+                        File file = chooser.getSelectedFile();
+                        FileWriter writer = new FileWriter(file);
+                        writer.write(noteArea.getText());
+                        writer.close();
+                        JOptionPane.showMessageDialog(frame, "Note saved to " + file.getAbsolutePath());
+                        noteArea.setText(""); // Clear text after saving
+                    }
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(frame, "error saving note");
+                    JOptionPane.showMessageDialog(frame, "Error saving note");
                 }
             }
         });
@@ -43,16 +49,23 @@ public class smart {
         reloadButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    // Read notes from file
-                    java.io.BufferedReader read = new java.io.BufferedReader(new java.io.FileReader("notes.txt"));
-                    noteArea.setText(""); // clear before loading
-                    String line;
-                    while ((line = read.readLine()) != null) {
-                        noteArea.append(line + "\n");
+                    // Let the user pick a file to load
+                    JFileChooser chooser = new JFileChooser();
+                    int choice = chooser.showOpenDialog(frame);
+                    
+                    if (choice == JFileChooser.APPROVE_OPTION) {
+                        File file = chooser.getSelectedFile();
+                        BufferedReader reader = new BufferedReader(new FileReader(file));
+                        noteArea.setText("");
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            noteArea.append(line + "\n");
+                        }
+                        reader.close();
+                        JOptionPane.showMessageDialog(frame, "Note loaded from " + file.getAbsolutePath());
                     }
-                    read.close();
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(frame, "no notes yet");
+                    JOptionPane.showMessageDialog(frame, "Error loading note");
                 }
             }
         });
