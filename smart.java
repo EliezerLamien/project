@@ -17,11 +17,13 @@ public class smart {
         // Create buttons
         JButton saveButton = new JButton("save");
         JButton reloadButton = new JButton("reload");
+        JButton clearButton = new JButton("clear"); // New clear button
 
         // Add components to window
         frame.add(scroll, BorderLayout.CENTER);
         frame.add(saveButton, BorderLayout.SOUTH);
         frame.add(reloadButton, BorderLayout.NORTH);
+        frame.add(clearButton, BorderLayout.EAST); // Added clear button to the right side
 
         // Save button action
         saveButton.addActionListener(new ActionListener() {
@@ -67,6 +69,13 @@ public class smart {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(frame, "Error loading note");
                 }
+            }
+        });
+
+        // Clear button action
+        clearButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                noteArea.setText("");
             }
         });
 
