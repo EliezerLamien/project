@@ -30,10 +30,13 @@ def add_course():
         # Ask for course name
         course = input("Enter course name: ")
 
-        # Add course to the student's course list
-        students[student].append(course)
-
-        print(f"Course {course} added to {student}.")
+        # ONLY ADDITION FOR THIS WEEK
+        # prevent duplicate courses
+        if course in students[student]:
+            print("Course already added for this student.")
+        else:
+            students[student].append(course)
+            print(f"Course {course} added to {student}.")
 
 
 # Function to display all students and their courses
