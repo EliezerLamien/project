@@ -1,3 +1,4 @@
+
 # Dictionary to store students and their courses
 # Key   = student name
 # Value = list of courses
@@ -22,6 +23,17 @@ def add_student():
 def add_course():
     # Ask for student name
     student = input("Enter student name: ")
+# Function to remove an existing student
+def remove_student():
+    # Ask for student name
+    student = input("Enter student name to remove: ")
+
+    # Check if student exists
+    if student in students:
+        del students[student]
+        print(f"Student {student} has been removed.")
+    else:
+        print("Student not found.")
 
     # Check if student exists
     if student not in students:
@@ -66,11 +78,12 @@ def main():
         print("\n=== Course Management System ===")
         print("1. Add student")
         print("2. Add course to student")
-        print("3. View students")
-        print("4. Quit")
+        print("3. View students")        
+        print("4. Remove student")
+        print("5. Exit")
 
         # Get user choice
-        choice = input("Choose an option (1-4): ")
+        choice = input("Choose an option (1-5): ")
 
         # Call the correct function based on choice
         if choice == "1":
@@ -80,6 +93,8 @@ def main():
         elif choice == "3":
             view_students()
         elif choice == "4":
+            remove_student()
+        elif choice == "5":
             print("Goodbye!")
             break
         else:
