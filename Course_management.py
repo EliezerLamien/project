@@ -1,4 +1,3 @@
-
 # Dictionary to store students and their courses
 # Key   = student name
 # Value = list of courses
@@ -23,17 +22,6 @@ def add_student():
 def add_course():
     # Ask for student name
     student = input("Enter student name: ")
-# Function to remove an existing student
-def remove_student():
-    # Ask for student name
-    student = input("Enter student name to remove: ")
-
-    # Check if student exists
-    if student in students:
-        del students[student]
-        print(f"Student {student} has been removed.")
-    else:
-        print("Student not found.")
 
     # Check if student exists
     if student not in students:
@@ -49,6 +37,37 @@ def remove_student():
         else:
             students[student].append(course)
             print(f"Course {course} added to {student}.")
+
+
+# Function to remove an existing student
+def remove_student():
+    # Ask for student name
+    student = input("Enter student name to remove: ")
+
+    # Check if student exists
+    if student in students:
+        del students[student]
+        print(f"Student {student} has been removed.")
+    else:
+        print("Student not found.")
+
+
+# Function to remove a course from a student
+def remove_course():
+    student = input("Enter student name: ")
+
+    # Check if student exists
+    if student not in students:
+        print("Student not found.")
+    else:
+        course = input("Enter course to remove: ")
+
+        # Check if the course exists
+        if course in students[student]:
+            students[student].remove(course)
+            print(f"Course {course} removed from {student}.")
+        else:
+            print("Course not found for this student.")
 
 
 # Function to display all students and their courses
@@ -78,12 +97,13 @@ def main():
         print("\n=== Course Management System ===")
         print("1. Add student")
         print("2. Add course to student")
-        print("3. View students")        
+        print("3. View students")
         print("4. Remove student")
-        print("5. Exit")
+        print("5. Remove course from student")
+        print("6. Exit")
 
         # Get user choice
-        choice = input("Choose an option (1-5): ")
+        choice = input("Choose an option (1-6): ")
 
         # Call the correct function based on choice
         if choice == "1":
@@ -95,6 +115,8 @@ def main():
         elif choice == "4":
             remove_student()
         elif choice == "5":
+            remove_course()
+        elif choice == "6":
             print("Goodbye!")
             break
         else:
