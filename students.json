@@ -1,7 +1,16 @@
 {
-    "h": {
-        "name": "h",
-        "major": "jeremi",
-        "courses": []
+    "111": {
+        "name": "Alex",
+        "major": "English",
+        "courses": [
+            "English Comp1"
+        ]
+    },
+    "222": {
+        "name": "Eli",
+        "major": "Computer science",
+        "courses": [
+            "C++"
+        ]
     }
 }
